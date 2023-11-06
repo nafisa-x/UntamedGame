@@ -6,15 +6,17 @@ using UnityEngine.AI;
 public class EnemyController : MonoBehaviour
 {
     GameObject player;
-
     NavMeshAgent enemy;
     Rigidbody rb;
 
+    //assign layers for the ground and player
     [SerializeField] LayerMask groundLayer, playerLayer;
 
-    //patrol
-    Vector3 destPoint;
-    bool walkpointSet;
+    //set new destination for patrol
+    Vector3 newDestination;
+
+    //
+    bool enableWalk;
     [SerializeField] float range;
 
     //state change
@@ -23,9 +25,9 @@ public class EnemyController : MonoBehaviour
 
     void Start()
     {
+        //get enemy and player object
         enemy = GetComponent<NavMeshAgent>();
         player = GameObject.Find("Player");
-
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
     }
@@ -33,7 +35,6 @@ public class EnemyController : MonoBehaviour
     void Update()
     {
         playerInSight = Physics.CheckSphere(transform.position, sightRange, playerLayer);
-
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
 
         if (!playerInSight && !playerInAttackRange) Patrol();
@@ -41,37 +42,41 @@ public class EnemyController : MonoBehaviour
         if (playerInSight && playerInAttackRange) Attack();
     }
 
+
+    //enemy chase player function
     void Chase()
     {
         enemy.SetDestination(player.transform.position);
-
-        // enemy.destination = player.transform.position;
+        
     }
 
+    //enemy attack player function
     void Attack()
     {
     }
 
     
-
+    //enemy on patrol function
     void Patrol()
     {
-        if (!walkpointSet) SearchForDest();
-        if (walkpointSet) enemy.SetDestination(destPoint);
-        if (Vector3.Distance(transform.position, destPoint) < 10) walkpointSet = false;
+        if (!enableWalk) SetNewDest();
+        if (enableWalk) enemy.SetDestination(newDestination);
 
+        //set enemy walk to false if new destination is below range
+        if (Vector3.Distance(transform.position, newDestination) < 10) enableWalk = false;
     }
 
-    void SearchForDest()
+    //set new destination for enemy to walk to
+    void SetNewDest()
     {
         float z = Random.Range(-range, range);
         float x = Random.Range(-range, range);
 
-        destPoint = new Vector3(transform.position.x + x, transform.position.y, transform.position.z + z);
+        newDestination = new Vector3(transform.position.x + x, transform.position.y, transform.position.z + z);
 
-        if (Physics.Raycast(destPoint, Vector3.down, groundLayer))
+        if (Physics.Raycast(newDestination, Vector3.down, groundLayer))
         {
-            walkpointSet = true;
+            enableWalk = true;
         }
     }
 }
