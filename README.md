@@ -2,8 +2,8 @@
  
 ECS657U - Multi-Platform Game Development, Group AM
 
-!The original repo encountered problems, hence this repo was set up to fix the project and also acts as a backup. 
-The files have been fixed to show up-to-date assets and code of the prototype, but to view incremental commits and other progress for the past weeks, please refer to the old repository.
+!!! The original repo encountered problems, hence this repo was set up to fix the project and also acts as a backup. 
+The files have been fixed to show up-to-date assets and code of the prototype, but to view past commits and progress for the past weeks, please refer to the old repository.
 Link to original GitHub repo: https://github.com/LucianaLA/Untamed
 
 Link to the prototype on WebGL: https://nafisa-x.github.io/UntamedGame/Build/index.html
