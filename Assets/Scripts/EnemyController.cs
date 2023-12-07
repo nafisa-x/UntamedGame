@@ -16,7 +16,7 @@ public class EnemyController : MonoBehaviour
     Vector3 newDestination;
 
     //
-    bool enableWalk;
+    public static bool enableWalk;
     [SerializeField] float range;
 
     //state change
